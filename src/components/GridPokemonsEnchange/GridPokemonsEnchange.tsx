@@ -2,6 +2,7 @@ import React from "react";
 import CardPokemon from "../CardPokemon/CardPokemon";
 
 import { IPokemon } from "@/types/Pokemon";
+import { getBaseExperienceArrayPokemons } from "@/utils";
 
 interface props {
   title: string;
@@ -18,7 +19,11 @@ const GridPokemonsEnchange = ({
   return (
     <div className="flex  flex-col flex-1  mx-4 bg-white p-4 rounded-lg shadow-md items-center h-full">
       <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
-
+      {listPokemons.length > 0 && (
+        <h2 className="text-1xl  mb-4 text-center">
+          Experiência : {getBaseExperienceArrayPokemons(listPokemons)}
+        </h2>
+      )}
       {listPokemons.length > 0 ? (
         <div className="grid grid-cols-3 gap-4 ">
           {listPokemons.map((pokemon: IPokemon, index: number) => (

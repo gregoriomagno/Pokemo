@@ -7,6 +7,7 @@ import { LiaExchangeAltSolid } from "react-icons/lia";
 import { filterPokemonsBySearch, verifyIfreplacementFair } from "@/utils";
 import {
   maxNumberPokemonsPerExchange,
+  numPokemons,
   valueErroMarginExchange,
 } from "@/constants";
 import GridPokemonsEnchange from "@/components/GridPokemonsEnchange/GridPokemonsEnchange";
@@ -41,7 +42,7 @@ export default function Home() {
 
     try {
       var ids = [];
-      for (var i = 1; i < 200; i++) {
+      for (var i = 1; i < numPokemons; i++) {
         ids.push(i);
       }
       axios
@@ -160,11 +161,11 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 w-full h-full items-center justify-center mt-20 bg-green-500">
       <div className="flex flex-col w-full p-10">
-        <h2 className="text-6xl font-bold text-white  text-center mb-10">
-          Troca de Pokémons
+        <h2 className="  text-3xl md:text-6xl font-bold text-white  text-center mb-10">
+        Ranqueador de Trocas Pokémons
         </h2>
 
-        <div className="flex flex-1  justify-center items-center h-1/2 ">
+        <div className="flex flex-1 flex-col lg:flex-row justify-center items-center h-1/2 ">
           <GridPokemonsEnchange
             title="Pokémons para Troca"
             listPokemons={pokemonsReplacementToReplace}
@@ -189,25 +190,27 @@ export default function Home() {
 
       <div className="flex flex-col w-2/3 m-10">
         <SearchBar onSearch={handleSearch} />
-        <div className="grid grid-cols-5 gap-4 mt-10 mx-2">
-          {isLoading ? (
-           Array.from({ length: 10 }).map((_, index) => (
-            <SkeletonCardPokemon key={index} />
-          ))
-          ) : (
-            filterPokemonsBySearch(pokemons, searchText).map(
-              (pokemon: IPokemon, index: number) => (
-                <CardPokemon
-                  key={index}
-                  onClickButtonToReceive={() => onClickPokemonToReceive(index)}
-                  onClickButtonToReplace={() => onClickPokemonToReplace(index)}
-                  description={`EXP: ${pokemon.base_experience}`}
-                  imageUrl={pokemon.sprites.front_default}
-                  name={pokemon.name}
-                />
-              )
-            )
-          )}
+        <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10 mx-2">
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, index) => (
+                <SkeletonCardPokemon key={index} />
+              ))
+            : filterPokemonsBySearch(pokemons, searchText).map(
+                (pokemon: IPokemon, index: number) => (
+                  <CardPokemon
+                    key={index}
+                    onClickButtonToReceive={() =>
+                      onClickPokemonToReceive(index)
+                    }
+                    onClickButtonToReplace={() =>
+                      onClickPokemonToReplace(index)
+                    }
+                    description={`EXP: ${pokemon.base_experience}`}
+                    imageUrl={pokemon.sprites.front_default}
+                    name={pokemon.name}
+                  />
+                )
+              )}
         </div>
       </div>
       <ModalEnchange

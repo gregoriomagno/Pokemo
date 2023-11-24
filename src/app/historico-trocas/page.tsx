@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 
 import { LiaExchangeAltSolid } from "react-icons/lia";
 
@@ -10,7 +9,6 @@ import AccordionItem from "@/components/AccordionItem/AccordionItem";
 
 export default function HistoricoTrocas() {
   const { dataHistoricoExchanges } = useHistoric();
-  const [openTrade, setOpenTrade] = useState(null);
 
   return (
     <div className="flex flex-col flex-1 w-full h-full items-center  mt-20 bg-green-500">
@@ -24,7 +22,7 @@ export default function HistoricoTrocas() {
             <ul>
               {dataHistoricoExchanges?.map((enchange, index) => (
                 <AccordionItem key={index} title={`Troca ${index + 1}`}>
-                  <div className="flex flex-1 items-center ">
+                  <div className="flex flex-1 flex-col lg:flex-row items-center ">
                     <GridPokemonsEnchange
                       title="Pokémons Recebidos"
                       removeItem={false}
