@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({ onSearch }) => {
+interface SearchBarProps{
+    onSearch: (value: string)=>void
+}
+const SearchBar = ({ onSearch }:SearchBarProps) => {
   const [search, setSearch] = useState('');
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: any) => {
     setSearch(event.target.value);
   };
 
