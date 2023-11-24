@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from '../Modal/Modal';
 interface ModalEnchangeProps{
+  enchangeFair: boolean
     isOpen: boolean,
     onClose: ()=> void;
     onClickCancel: ()=> void;
@@ -8,14 +9,15 @@ interface ModalEnchangeProps{
 
 
 }
-const ModalEnchange = ({isOpen,onClose,onClickCancel,onClickProceed}:ModalEnchangeProps) => {
+const ModalEnchange = ({enchangeFair,isOpen,onClose,onClickCancel,onClickProceed}:ModalEnchangeProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
     <div className="p-4 ">
-      <h1 className="text-2xl font-bold mb-4">Troca Injusta</h1>
+      <h1 className="text-2xl font-bold mb-4">{enchangeFair ? "A troca é justa!": "A troca não é justa!"}</h1>
       <p>
-        A troca que você deseja realizar é considerada injusta, deseja
-        proceguir ? .
+        
+        A troca que você deseja realizar é considerada {enchangeFair ? 'justa': 'injusta' } , deseja
+        prosseguir ? .
       </p>
       <div className="flex flex-1 justify-between">
         <button

@@ -1,10 +1,12 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { IExchange } from "@/types/Exchange";
+import { IPokemon } from "@/types/Pokemon";
+import { createContext, useState } from "react";
 
 export interface IHistoricContext {
-  dataHistoricoExchanges: any[];
-  setDataHistoricoExchanges: (data: any[]) => void;
-  addNewEnchanges: (receive: any[], replace: any[]) => void;
+  dataHistoricoExchanges: IExchange[];
+  setDataHistoricoExchanges: (data: IExchange[]) => void;
+  addNewEnchanges: (receive: IPokemon[], replace: IPokemon[]) => void;
 }
 
 export const HistoricContext = createContext({} as IHistoricContext);
@@ -14,11 +16,11 @@ type StateProviderProps = {
 };
 
 const HistoricProvider = ({ children }: StateProviderProps) => {
-  const [dataHistoricoExchanges, setDataHistoricoExchanges] = useState<any[]>(
+  const [dataHistoricoExchanges, setDataHistoricoExchanges] = useState<IExchange[]>(
     []
   );
 
-  function addNewEnchanges(receive: any[], replace: any[]) {
+  function addNewEnchanges(receive: IPokemon[], replace: IPokemon[]) {
     setDataHistoricoExchanges([
       ...dataHistoricoExchanges,
       {
