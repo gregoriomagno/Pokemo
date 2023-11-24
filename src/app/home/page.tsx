@@ -14,6 +14,7 @@ import { useHistoric } from "@/hooks/historic";
 
 export default function Home() {
   const { addNewEnchanges } = useHistoric();
+  const [searchText, setSearchText] = useState('');
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -25,6 +26,16 @@ export default function Home() {
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+
+  function filterPokemonsBySearch(pokemonList: any[], searchValue: string) {
+    return pokemonList.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
+  function handleSearch(text: string) {
+    setSearchText(text);
+  }
 
   const getPokemons = () => {
     var ids = [];
@@ -133,9 +144,9 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col w-fit m-10">
-        <SearchBar />
+        <SearchBar onSearch={handleSearch}/>
         <div className="grid grid-cols-5 gap-4 mt-10 mx-2">
-          {pokemons.map((pokemon: any, index: number) => (
+          {filterPokemonsBySearch(pokemons, searchText).map((pokemon: any, index: number) => (
             <CardPokemon
               key={index}
               onClickButtonToReceive={() => onClickPokemonToReceive(index)}
