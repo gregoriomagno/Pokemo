@@ -7,3 +7,9 @@ export function verifyIfreplacementFair(array1 : any[], array2: any[], marginOfE
     console.log('verifyIfreplacementFair: ', difference)
     return difference <= marginOfError;
   }
+
+  export function filterPokemonsBySearch(pokemonList: any[], searchValue: string) {
+    return pokemonList.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }

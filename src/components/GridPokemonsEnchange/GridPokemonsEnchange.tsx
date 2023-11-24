@@ -4,11 +4,13 @@ import CardPokemon from "../CardPokemon/CardPokemon";
 interface props {
   title: string;
   listPokemons: any[];
+  removeItem?: boolean;
   onClickPokemonRemoveListReceive?: (index: number) => void;
 }
 const GridPokemonsEnchange = ({
   title,
   listPokemons,
+  removeItem = true,
   onClickPokemonRemoveListReceive,
 }: props) => {
   return (
@@ -18,6 +20,8 @@ const GridPokemonsEnchange = ({
         {listPokemons.map((pokemon: any, index: number) => (
           <CardPokemon
             key={index}
+            showButtonRemove={removeItem}
+            
             onClickButtonToRemove={() =>
               !!onClickPokemonRemoveListReceive &&
               onClickPokemonRemoveListReceive(index)

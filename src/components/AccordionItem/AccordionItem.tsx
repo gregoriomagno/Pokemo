@@ -9,7 +9,7 @@ interface AccordionItemProps {
 }
 
 const AccordionItem = ({ title, children }: AccordionItemProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -18,7 +18,7 @@ const AccordionItem = ({ title, children }: AccordionItemProps) => {
   return (
     <div className="mb-4">
       <div
-        className="flex items-center justify-between bg-gray-200 p-3 cursor-pointer"
+        className="flex items-center rounded justify-between bg-gray-200 p-3 cursor-pointer"
         onClick={toggleAccordion}
       >
         <h2 className="text-lg font-bold">{title}</h2>

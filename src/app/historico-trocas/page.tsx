@@ -36,12 +36,15 @@ export default function HistoricoTrocas() {
                   <div className="flex flex-1 items-center ">
                     <GridPokemonsEnchange
                       title="Pokémons Recebidos"
+                      removeItem={false}
                       listPokemons={enchange.pokemonsReplacementToReceive}
                     />
                     <LiaExchangeAltSolid size={80} color="green" />
 
                     <GridPokemonsEnchange
                       title="Pokémons Trocados"
+                      removeItem={false}
+
                       listPokemons={enchange.pokemonsReplacementToReplace}
                     />
                   </div>

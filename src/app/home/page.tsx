@@ -1,20 +1,20 @@
 "use client";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import axios from "axios";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getPokemonById } from "../../../services/PokemonServices";
 import CardPokemon from "@/components/CardPokemon/CardPokemon";
 import { LiaExchangeAltSolid } from "react-icons/lia";
-import { verifyIfreplacementFair } from "@/utils";
+import { filterPokemonsBySearch, verifyIfreplacementFair } from "@/utils";
 import { valueErroMarginExchange } from "@/constants";
-import Modal from "@/components/Modal/Modal";
 import GridPokemonsEnchange from "@/components/GridPokemonsEnchange/GridPokemonsEnchange";
 import { useHistoric } from "@/hooks/historic";
-
+import ModalEnchange from "@/components/ModalEnchange/ModalEnchange";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
   const { addNewEnchanges } = useHistoric();
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -27,12 +27,6 @@ export default function Home() {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-
-  function filterPokemonsBySearch(pokemonList: any[], searchValue: string) {
-    return pokemonList.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }
   function handleSearch(text: string) {
     setSearchText(text);
   }
@@ -47,26 +41,24 @@ export default function Home() {
       .then((res) => setPokemons(res));
   };
 
+  function onClickPokemon(index: number, listState: any[], setListState: React.Dispatch<React.SetStateAction<any[]>>, maxPokemons: number) {
+    if (listState.length < maxPokemons) {
+      setListState([...listState, pokemons[index]]);
+    } else {
+      toast.warn('O máximo de pokémons na troca é 6!');
+    }
+  }
+  
+  // Uso da função onClickPokemonToReceive
   function onClickPokemonToReceive(index: number) {
-    if (pokemonsReplacementToReceive.length < 6) {
-      setPokemonsReplacementToReceive([
-        ...pokemonsReplacementToReceive,
-        pokemons[index],
-      ]);
-    } else {
-      //toast
-    }
+    onClickPokemon(index, pokemonsReplacementToReceive, setPokemonsReplacementToReceive, 6);
   }
+  
+  // Uso da função onClickPokemonToReplace
   function onClickPokemonToReplace(index: number) {
-    if (pokemonsReplacementToReplace.length < 6) {
-      setPokemonsReplacementToReplace([
-        ...pokemonsReplacementToReplace,
-        pokemons[index],
-      ]);
-    } else {
-      //toast
-    }
+    onClickPokemon(index, pokemonsReplacementToReplace, setPokemonsReplacementToReplace, 6);
   }
+
   function onClickPokemonRemoveListReplace(index: number) {
     setPokemonsReplacementToReplace((prevPokemons) => {
       // Filtra os pokémons removendo o item com o índice específico
@@ -89,9 +81,14 @@ export default function Home() {
   }
 
   function MakeExchange() {
+    if(pokemonsReplacementToReplace.length > 0 &&  pokemonsReplacementToReceive.length > 0 ){
     console.log("trocar");
     addNewEnchanges(pokemonsReplacementToReceive, pokemonsReplacementToReplace);
     resetExchange();
+  }else{
+      toast.error('Você deve Adicionar Pokémons para a troca!');
+
+  }
   }
 
   function toReplacePokemon() {
@@ -144,46 +141,34 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col w-fit m-10">
-        <SearchBar onSearch={handleSearch}/>
+        <SearchBar onSearch={handleSearch} />
         <div className="grid grid-cols-5 gap-4 mt-10 mx-2">
-          {filterPokemonsBySearch(pokemons, searchText).map((pokemon: any, index: number) => (
-            <CardPokemon
-              key={index}
-              onClickButtonToReceive={() => onClickPokemonToReceive(index)}
-              onClickButtonToReplace={() => onClickPokemonToReplace(index)}
-              description={`EXP: ${pokemon.base_experience}`}
-              imageUrl={pokemon.sprites.front_default}
-              name={pokemon.name}
-            />
-          ))}
+          {filterPokemonsBySearch(pokemons, searchText).map(
+            (pokemon: any, index: number) => (
+              <CardPokemon
+                key={index}
+                onClickButtonToReceive={() => onClickPokemonToReceive(index)}
+                onClickButtonToReplace={() => onClickPokemonToReplace(index)}
+                description={`EXP: ${pokemon.base_experience}`}
+                imageUrl={pokemon.sprites.front_default}
+                name={pokemon.name}
+              />
+            )
+          )}
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-4 ">
-          <h1 className="text-2xl font-bold mb-4">Troca Injusta</h1>
-          <p>
-            A troca que você deseja realizar é considerada injusta, deseja
-            proceguir ? .
-          </p>
-          <div className="flex flex-1 justify-between">
-            <button
-              onClick={() => {
-                resetExchange();
-                closeModal();
-              }}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={MakeExchange}
-              className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
-            >
-              Continuar
-            </button>
-          </div>
-        </div>
-      </Modal>
+      <ModalEnchange
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onClickCancel={() => {
+          MakeExchange();
+          closeModal();
+        }}
+        onClickProceed={() => {
+          MakeExchange();
+          closeModal();
+        }}
+      />
     </div>
   );
 }

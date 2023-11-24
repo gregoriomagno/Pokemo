@@ -8,6 +8,7 @@ interface CardProps {
   onClickButtonToReplace?: () => void;
   onClickButtonToRemove?: () => void;
   isSmallVersion?: boolean;
+  showButtonRemove?: boolean
 }
 const CardPokemon = ({
   imageUrl,
@@ -17,10 +18,11 @@ const CardPokemon = ({
   onClickButtonToReceive,
   onClickButtonToReplace,
   onClickButtonToRemove,
+  showButtonRemove = true,
 }: CardProps) => {
   return (
     <div
-      className={`relative max-w-xs bg-white  rounded-lg shadow-md overflow-hidden group ${
+      className={`relative max-w-xs bg-white   rounded-lg shadow-md overflow-hidden group ${
         isSmallVersion ? "max-h-40" : "max-h-50" // Ajuste aqui para tornar a versão grande um pouco menor
       }`}
     >
@@ -56,7 +58,7 @@ const CardPokemon = ({
           )}
         </div>
 
-        {onClickButtonToRemove && (
+        {onClickButtonToRemove&& showButtonRemove && (
           <button
             className="bg-red-500 text-white px-2 py-2 rounded flex items-center"
             onClick={onClickButtonToRemove}
