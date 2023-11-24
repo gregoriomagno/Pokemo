@@ -162,7 +162,7 @@ export default function Home() {
     <div className="flex flex-col flex-1 w-full h-full items-center justify-center mt-20 bg-green-500">
       <div className="flex flex-col w-full p-10">
         <h2 className="  text-3xl md:text-6xl font-bold text-white  text-center mb-10">
-        Ranqueador de Trocas Pokémons
+          Ranqueador de Trocas Pokémons
         </h2>
 
         <div className="flex flex-1 flex-col lg:flex-row justify-center items-center h-1/2 ">
@@ -218,7 +218,6 @@ export default function Home() {
         isOpen={isModalOpen}
         onClose={closeModal}
         onClickCancel={() => {
-          MakeExchange();
           closeModal();
         }}
         onClickProceed={() => {
